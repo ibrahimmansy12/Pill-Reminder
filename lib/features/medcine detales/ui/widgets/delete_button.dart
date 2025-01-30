@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pill2/core/helper/extention.dart';
 import 'package:pill2/core/routing/routs.dart';
+import 'package:pill2/core/service/local_notification_service.dart';
 import 'package:pill2/core/theming/colors.dart';
 import 'package:pill2/core/widgets/sapp_text_button.dart';
 import 'package:pill2/features/new%20entry%20page/data/add_reminder_model.dart';
@@ -64,7 +65,8 @@ class DeleteButton extends StatelessWidget {
             TextButton(
               onPressed: () {
                 addReminderModel!.delete();
-
+                LocalNotificationService.cancelNotification(
+                   addReminderModel!.id!);
                 context.pushNamedAndRemoveUntil(ERouts.homeScreen,
                     predicate: (route) => false);
               },

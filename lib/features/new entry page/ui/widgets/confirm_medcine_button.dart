@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:pill2/core/theming/text_style.dart';
@@ -6,6 +8,7 @@ import 'package:pill2/features/new%20entry%20page/data/add_reminder_model.dart';
 import 'package:pill2/features/new%20entry%20page/logic/new_entry_cubit.dart';
 
 import 'package:sizer/sizer.dart';
+import 'package:uuid/uuid.dart';
 
 class ConfirmMedcineButton extends StatefulWidget {
   const ConfirmMedcineButton({
@@ -30,6 +33,7 @@ class _ConfirmMedcineButtonState extends State<ConfirmMedcineButton> {
         onpressed: ()  {
           if (inject.formKey.currentState!.validate()) {
             AddReminderModel addreminderModel = AddReminderModel(
+              id:Random().nextInt(1000000),
               medcinename: inject.nameControler!.text,
               medcineDosge: inject.dosvageControler!.text,
               time: inject.newEntryModel.time,
