@@ -44,12 +44,20 @@ class LocalNotificationService {
       'id 4',
       importance: Importance.max,
       priority: Priority.high,
+      playSound: true,
+      color: Colors.red,
+      fullScreenIntent: true,
+      //timeoutAfter:10000,
+      showWhen: false 
+      ,ledOffMs: 10000,
+      ledOnMs: 10000,
     );
     NotificationDetails details = const NotificationDetails(
       android: android,
     );
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Africa/Cairo'));
+
     var currentTime = tz.TZDateTime.now(tz.local);
     log("currentTime.year:${currentTime.year}");
     log("currentTime.month:${currentTime.month}");
@@ -57,14 +65,22 @@ class LocalNotificationService {
     log("currentTime.hour:${currentTime.hour}");
     log("currentTime.minute:${currentTime.minute}");
     log("currentTime.second:${currentTime.second}");
-   var notifiTimehm=TimeOfDay(hour: addreminderModel?.time?.hour??0, minute: addreminderModel?.time?.minute??0) ;
+  DateTime notifiTimeHM = DateTime.now();
+
+    notifiTimeHM = DateTime(
+      currentTime.year,
+      currentTime.month,
+      currentTime.day,
+      addreminderModel?.time?.hour ?? 0,
+      addreminderModel?.time?.minute ?? 0,
+    );
     var scheduleTime = tz.TZDateTime(
       tz.local,
       currentTime.year,
       currentTime.month,
       currentTime.day,
-      notifiTimehm.hour,
-      notifiTimehm.minute,
+      notifiTimeHM.hour,
+      notifiTimeHM.minute,
     );
     log("scheduledTime.year:${scheduleTime.year}");
     log("scheduledTime.month:${scheduleTime.month}");
@@ -72,9 +88,9 @@ class LocalNotificationService {
     log("scheduledTime.hour:${scheduleTime.hour}");
     log("scheduledTime.minute:${scheduleTime.minute}");
     log("scheduledTime.second:${scheduleTime.second}");
-    if (scheduleTime.isBefore(tz.TZDateTime.now(tz.local))) {
-      scheduleTime =
-          scheduleTime.add(Duration(hours: addreminderModel?.interval ?? 6));
+    while (scheduleTime.isBefore(tz.TZDateTime.now(tz.local))) {
+      scheduleTime = scheduleTime.add(Duration(hours: addreminderModel?.interval ?? 6));
+    
       log("AfterAddedscheduledTime.year:${scheduleTime.year}");
       log("AfterAddedscheduledTime.month:${scheduleTime.month}");
       log("AfterAddedscheduledTime.day:${scheduleTime.day}");
@@ -83,6 +99,7 @@ class LocalNotificationService {
       log("AfterAddedscheduledTime.second:${scheduleTime.second}");
       log('Added Duration to scheduled time');
     }
+    
     await flutterLocalNotificationsPlugin.zonedSchedule(
   addreminderModel!.id!,
       addreminderModel.medcinename ?? "Medicine Time",
@@ -94,10 +111,10 @@ class LocalNotificationService {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
 
-      androidScheduleMode: AndroidScheduleMode.alarmClock,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
     log("scheduleTime ======================> $scheduleTime");
-    log("addReminderTime ======================> ${addreminderModel.time?.hour}");
+    log("addReminderTime ======================> ${addreminderModel.time?.hour}" ":" "${addreminderModel.time?.minute}");
     log("id ======================> ${addreminderModel.id}");
   }
 

@@ -12,22 +12,23 @@ import 'package:pill2/pill_app.dart';
 import 'core/service/work_manager_service.dart';
 
 
+
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
   // await ScreenUtil.ensureScreenSize();
   await Hive.initFlutter();
   Bloc.observer = AddReminderBlocObserver();
- // await Future.wait([
- //    LocalNotificationService.init(),
- //    WorkManagerService().init(),
- //  ]);
+ await Future.wait([
+    LocalNotificationService.init(),
+   // WorkManagerService().init(),
+  ]);
   Hive.registerAdapter(AddReminderModelAdapter());
   Hive.registerAdapter(MedicineTypeModelAdapter());
   Hive.registerAdapter(TimeOfDayAdapter());
   await Hive.openBox<AddReminderModel>(medcineBox);
 await Future.wait([
     LocalNotificationService.init(),
-    WorkManagerService().init(),
+    //WorkManagerService().init(),
   ]);
   runApp(PillReminder(
     approuting: EAppRouter(),

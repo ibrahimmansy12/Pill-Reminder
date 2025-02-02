@@ -23,8 +23,8 @@ class EAppRouter {
                 child: const NewEntryPage()));
       case ERouts.medcineDetailesPage:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => NewEntryCubit(),
+            builder: (context) => BlocProvider.value(
+                value: context.read<NewEntryCubit>(),
                 child: const MedcineDetailesPage()));
       default:
         return MaterialPageRoute(

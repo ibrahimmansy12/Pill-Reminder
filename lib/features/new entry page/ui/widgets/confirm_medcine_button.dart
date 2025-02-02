@@ -8,7 +8,6 @@ import 'package:pill2/features/new%20entry%20page/data/add_reminder_model.dart';
 import 'package:pill2/features/new%20entry%20page/logic/new_entry_cubit.dart';
 
 import 'package:sizer/sizer.dart';
-import 'package:uuid/uuid.dart';
 
 class ConfirmMedcineButton extends StatefulWidget {
   const ConfirmMedcineButton({

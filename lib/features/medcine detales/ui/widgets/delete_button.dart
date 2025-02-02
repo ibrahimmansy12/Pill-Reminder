@@ -63,12 +63,14 @@ class DeleteButton extends StatelessWidget {
               child: const Text('cancle'),
             ),
             TextButton(
-              onPressed: () {
-                addReminderModel!.delete();
+              onPressed: () async {
+                await addReminderModel!.delete();
                 LocalNotificationService.cancelNotification(
-                   addReminderModel!.id!);
-                context.pushNamedAndRemoveUntil(ERouts.homeScreen,
-                    predicate: (route) => false);
+                    addReminderModel!.id!);
+                if (context.mounted) {
+                  context.pushNamedAndRemoveUntil(ERouts.homeScreen,
+                      predicate: (route) => false);
+                }
               },
               child: const Text(
                 'ok',
